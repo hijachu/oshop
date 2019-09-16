@@ -1,3 +1,4 @@
+import { CategoryService } from './category.service';
 import { AdminAuthGuard as AdminAuthGuard } from './admin-auth-guard.service';
 import { AuthGuard as AuthGuard } from './auth-guard.service';
 import { AuthService } from './auth.service';
@@ -22,6 +23,7 @@ import { AdminProductsComponent } from './admin/admin-products/admin-products.co
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { LoginComponent } from './login/login.component';
 import { UserService } from './user.service';
+import { ProductFormComponent } from './admin/product-form/product-form.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { UserService } from './user.service';
     MyOrdersComponent,
     AdminProductsComponent,
     AdminOrdersComponent,
-    LoginComponent
+    LoginComponent,
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +62,11 @@ import { UserService } from './user.service';
         canActivate: [AuthGuard, AdminAuthGuard]
       },
       {
+        path: 'admin/products/new',
+        component: ProductFormComponent,
+        canActivate: [AuthGuard, AdminAuthGuard]
+      },
+      {
         path: 'admin/orders',
         component: AdminOrdersComponent,
         canActivate: [AuthGuard, AdminAuthGuard]
@@ -69,7 +77,8 @@ import { UserService } from './user.service';
     AuthService,
     AuthGuard,
     AdminAuthGuard,
-    UserService
+    UserService,
+    CategoryService
   ],
   bootstrap: [AppComponent]
 })
