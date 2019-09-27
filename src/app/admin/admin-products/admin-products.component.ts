@@ -1,16 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductService } from 'src/app/product.service';
+import { Subscription } from 'rxjs';
+import { AngularFireAction, DatabaseSnapshot } from '@angular/fire/database';
 
 @Component({
   selector: 'app-admin-products',
   templateUrl: './admin-products.component.html',
   styleUrls: ['./admin-products.component.css']
 })
-export class AdminProductsComponent implements OnInit {
-  products$;
+export class AdminProductsComponent implements OnInit, OnDestroy {
+  // products$;
+  // products: {title: string}[];
+  // products: any[];
+  products: AngularFireAction<DatabaseSnapshot<any>>[];
+  filterProducts: any[];
+  subscription: Subscription;
 
   constructor(private productService: ProductService) {
-    this.products$ = productService.getAll();
+    // this.products$ = productService.getAll();
+    this.subscription = productService.getAll()
+      .subscribe(products => this.filterProducts = this.products = products);
+  }
+
+  filter(query: string) {
+    // console.log(query);
+    this.filterProducts = (query) ?
+      this.products.filter(p => p.payload.val().title.toLowerCase().includes(query.toLowerCase())) :
+      this.products;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   ngOnInit() {
