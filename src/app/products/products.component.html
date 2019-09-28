@@ -1,1 +1,24 @@
-<p>products works!</p>
+<!-- .row>.col+.w-100 -->
+<div class="container">
+  <div class="row">
+    <ng-container *ngFor="let p of products$ | async; let i = index">
+      <div class="col">
+        <div class="card" style="width: 13rem;">
+          <img
+            [src]="p.payload.val().imageUrl"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ p.payload.val().title }}</h5>
+            <p class="card-text">
+              {{ p.payload.val().price | currency: "USD":"symbol" }}
+            </p>
+            <a href="#" class="btn btn-primary">Add to Cart</a>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="(i + 1) % 2 === 0" class="w-100"></div>
+    </ng-container>
+  </div>
+</div>
