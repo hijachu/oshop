@@ -15,7 +15,7 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   // products: {title: string}[];
   // products: any[];
   products: AngularFireAction<DatabaseSnapshot<Product>>[];
-  filterProducts: any[];
+  // filterProducts: any[];
   subscription: Subscription;
   tableResource: DataTableResource< AngularFireAction<DatabaseSnapshot<Product>> >;
   items: AngularFireAction<DatabaseSnapshot<Product>>[] = [];
@@ -25,7 +25,8 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     // this.products$ = productService.getAll();
     this.subscription = productService.getAll()
       .subscribe((products: AngularFireAction<DatabaseSnapshot<Product>>[]) => {
-        this.filterProducts = this.products = products;
+        // this.filterProducts = this.products = products;
+        this.products = products;
         this.initializeTable(products);
       });
   }
@@ -47,9 +48,14 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
 
   filter(query: string) {
     // console.log(query);
-    this.filterProducts = (query) ?
+    // this.filterProducts = (query) ?
+    let filterProducts = (query) ?
       this.products.filter(p => p.payload.val().title.toLowerCase().includes(query.toLowerCase())) :
       this.products;
+
+    // this.initializeTable(this.filterProducts);
+    this.initializeTable(filterProducts);
+
   }
 
   ngOnDestroy() {
