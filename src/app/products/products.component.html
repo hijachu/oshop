@@ -14,16 +14,13 @@
       </div>
     </div>
 
-    <div class="col-9">
+    <div class="col">
       <div class="row">
-        <ng-container *ngFor="let p of products$ | async; let i = index">
+        <!-- <ng-container *ngFor="let p of products$ | async; let i = index"> -->
+        <ng-container *ngFor="let p of filteredProducts; let i = index">
           <div class="col">
             <div class="card" style="width: 13rem;">
-              <img
-                [src]="p.imageUrl"
-                class="card-img-top"
-                alt="..."
-              />
+              <img [src]="p.imageUrl" class="card-img-top" alt="Card image cap" />
               <div class="card-body">
                 <h5 class="card-title">{{ p.title }}</h5>
                 <p class="card-text">
