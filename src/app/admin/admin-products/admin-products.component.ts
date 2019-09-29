@@ -14,24 +14,35 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   // products$;
   // products: {title: string}[];
   // products: any[];
-  products: AngularFireAction<DatabaseSnapshot<Product>>[];
+  // products: AngularFireAction<DatabaseSnapshot<Product>>[];
+  products: Product[];
+
   // filterProducts: any[];
+
   subscription: Subscription;
-  tableResource: DataTableResource< AngularFireAction<DatabaseSnapshot<Product>> >;
-  items: AngularFireAction<DatabaseSnapshot<Product>>[] = [];
+
+  // tableResource: DataTableResource< AngularFireAction<DatabaseSnapshot<Product>> >;
+  tableResource: DataTableResource<Product>;
+
+  // items: AngularFireAction<DatabaseSnapshot<Product>>[] = [];
+  items: Product[] = [];
+
   itemCount: number;
 
   constructor(private productService: ProductService) {
     // this.products$ = productService.getAll();
+    
     this.subscription = productService.getAll()
-      .subscribe((products: AngularFireAction<DatabaseSnapshot<Product>>[]) => {
+      // .subscribe((products: AngularFireAction<DatabaseSnapshot<Product>>[]) => {
+      .subscribe((products: Product[]) => {
         // this.filterProducts = this.products = products;
         this.products = products;
         this.initializeTable(products);
       });
   }
 
-  private initializeTable(products: AngularFireAction<DatabaseSnapshot<Product>>[]) {
+  // private initializeTable(products: AngularFireAction<DatabaseSnapshot<Product>>[]) {
+  private initializeTable(products: Product[]) {
     this.tableResource = new DataTableResource(products);
     this.tableResource.query({ offset: 0 })
       .then(items => this.items = items);
@@ -47,10 +58,11 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   }
 
   filter(query: string) {
-    // console.log(query);
+
     // this.filterProducts = (query) ?
     let filterProducts = (query) ?
-      this.products.filter(p => p.payload.val().title.toLowerCase().includes(query.toLowerCase())) :
+      // this.products.filter(p => p.payload.val().title.toLowerCase().includes(query.toLowerCase())) :
+      this.products.filter(p => p.title.toLowerCase().includes(query.toLowerCase())) :
       this.products;
 
     // this.initializeTable(this.filterProducts);
